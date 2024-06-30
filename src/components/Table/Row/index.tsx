@@ -4,14 +4,12 @@ import { ColType } from ".."
 type RowProps<T> = {
   columns: ColType<T>[],
   val: T,
-  nbOfTitles: number,
+  columnsMaxWidth: number,
   totalRows: number,
   rowIndex: number
 }
 
-const Row = <T,>({columns, val, nbOfTitles, totalRows, rowIndex}: RowProps<T>) => { 
-  const { innerWidth: width } = window;
-
+const Row = <T,>({columns, val, columnsMaxWidth, totalRows, rowIndex}: RowProps<T>) => { 
   return (
     <React.Fragment>
       <tr className={`hover:bg-gray-100  ${rowIndex === totalRows ? 'border-b-2 border-gray-400' : 'border-b'}`}>
@@ -20,7 +18,7 @@ const Row = <T,>({columns, val, nbOfTitles, totalRows, rowIndex}: RowProps<T>) =
             key={propIndex} 
             title={`${val[prop.property]}`}
             className={`text-ellipsis whitespace-nowrap overflow-hidden p-4 min-w-32 md:min-w-min`}
-            style={{ maxWidth: `${Math.floor((width/nbOfTitles))}px`, width: `${Math.floor((width/nbOfTitles))}px` }} 
+            style={{ maxWidth: `${columnsMaxWidth}px`, width: `${columnsMaxWidth}px` }} 
           >
             {`${val[prop.property]}`}
           </td>

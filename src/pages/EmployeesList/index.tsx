@@ -23,7 +23,7 @@ const EmployeesList = () => {
 
   // Assurez-vous que cols correspond bien au type des données fournies
   const columns: ColType<User>[] = [
-    {title: 'First Name', property: 'firstName'},
+    {title: 'First Nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', property: 'firstName'},
     {title: 'Last Name', property: 'lastName'},
     {title: 'Department', property: 'department'}, 
     {title: 'Date of Birth', property: 'birthDate'},
@@ -34,7 +34,9 @@ const EmployeesList = () => {
   ];
 
   return (
-    <List data={exampleData} columns={columns} />
+    <div className="m-2 md:m-6 lg:m-12">
+      <List data={exampleData} columns={columns} />
+    </div>
   )
 }
 

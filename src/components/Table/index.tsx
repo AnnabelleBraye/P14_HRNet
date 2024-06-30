@@ -23,6 +23,8 @@ const Table = <T,>({data, columns}: TableProps<T>) => {
   const [startIndex, setStartIndex] = useState(getStartIndex(currentPage, itemsPerPage));
   const [endIndex, setEndIndex] = useState(startIndex + itemsPerPage);
   const [currentData, setCurrentData] = useState(getCurrentData(sortedData, startIndex, endIndex));
+  
+  const columnsMaxWidth = getColumnsMaxWidth(nbOfTitles);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -109,13 +111,24 @@ const Table = <T,>({data, columns}: TableProps<T>) => {
             <thead>
               <tr className="bg-gray-200 border-y-2 border-solid border-gray-400 rounded-sm">
                 {columns.map((col, index) => (
-                  <Header key={index} title={col.title} onClick={() => sortList(col.property)} />
+                  <Header
+                    key={index} 
+                    title={col.title} 
+                    onClick={() => sortList(col.property)}
+                    columnsMaxWidth={columnsMaxWidth}  
+                  />
                 ))}
               </tr>
             </thead>
             <tbody>
               {currentData.map((val, dataIndex) => (          
-                <Row key={dataIndex} columns={columns} val={val} nbOfTitles={nbOfTitles} totalRows={data.length - 1} rowIndex={dataIndex} />
+                <Row
+                  key={dataIndex}
+                  columns={columns}
+                  val={val}
+                  columnsMaxWidth={columnsMaxWidth}
+                  totalRows={data.length - 1}
+                  rowIndex={dataIndex} />
               ))}
             </tbody>
             <tfoot>
@@ -141,6 +154,12 @@ const Table = <T,>({data, columns}: TableProps<T>) => {
 
 const getTotalPages = <T,>(data: T[], itemsPerPage: number) => {
   return Math.ceil(data.length / itemsPerPage)
+}
+
+const getColumnsMaxWidth = (nbOfTitles: number) => {
+  const { innerWidth: width } = window;
+
+  return Math.floor((width/nbOfTitles))
 }
 
 const getStartIndex = (currentPage: number, itemsPerPage: number) => {

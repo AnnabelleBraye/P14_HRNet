@@ -21,23 +21,23 @@ const Footer = ({
 }: FooterProps) => {
   return (
     <td colSpan={columnsLength} className="p-2">
-        <div className="flex justify-between">
-          <p>Showing {startIndex + 1} to {endIndex > totalData ? totalData : endIndex} of {totalData} entries</p>
-          <div>
-            <button className={`mr-2 ${currentPage === 1 ? 'text-gray-400' : ''}`} disabled={currentPage === 1} onClick={handlePrevious}>
-              Previous
-            </button>
-            <span className="underline">{currentPage}</span>
-            <button
-              className={`ml-2 ${currentPage === totalPages ? 'text-gray-400' : ''}`}
-              disabled={currentPage === totalPages}
-              onClick={handleNext}
-            >
-              Next
-            </button>
-          </div>
+      <div className="flex justify-between">
+        <p>Showing {startIndex + 1} to {endIndex > totalData ? totalData : endIndex} of {totalData} entries</p>
+        <div>
+          <button className={`mr-2 ${currentPage === 1 ? 'text-gray-400' : ''}`} disabled={currentPage === 1} onClick={handlePrevious}>
+            Previous
+          </button>
+          <span className="underline">{currentPage}</span>
+          <button
+            className={`ml-2 ${currentPage === totalPages ? 'text-gray-400' : ''}`}
+            disabled={currentPage === totalPages}
+            onClick={handleNext}
+          >
+            Next
+          </button>
         </div>
-      </td>
+      </div>
+    </td>
   )
 }
 
