@@ -19,8 +19,8 @@ const Row = <T,>({columns, val, nbOfTitles, totalRows, rowIndex}: RowProps<T>) =
           <td 
             key={propIndex} 
             title={`${val[prop.property]}`}
-            className={`text-ellipsis whitespace-nowrap overflow-hidden p-4`}
-            style={{ maxWidth: `${Math.floor((width/nbOfTitles))}px` }} 
+            className={`text-ellipsis whitespace-nowrap overflow-hidden p-4 min-w-32 md:min-w-min`}
+            style={{ maxWidth: `${Math.floor((width/nbOfTitles))}px`, width: `${Math.floor((width/nbOfTitles))}px` }} 
           >
             {`${val[prop.property]}`}
           </td>
