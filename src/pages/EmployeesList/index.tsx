@@ -1,29 +1,31 @@
+import { useEffect, useState } from "react"
 import List, { ColType } from "../../components/Table"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons/faUserPlus"
+import ModaleForm from "../../components/ModaleForm"
+import { userData } from "../../data/employees"
 
-type User = {
+export type User = {
   firstName: string,
   lastName: string,
   department: string,
   birthDate: string,
+  startDate: string,
   street: string,
   city: string,
   state: string, 
   zipCode: string
 }
 const EmployeesList = () => {
-  // Exemple de données typées
-  const exampleData = [
-    {firstName: 'John', lastName: 'Doe', department: 'Sales', birthDate: '1990-01-01', street: '123 Main Stoooooooooooooooooooooooooooooooooooooo', city: 'Anytownoooooooooooooooooooooooooooo', state: 'CACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', zipCode: '12345'},
-    {firstName: 'John', lastName: 'Doe', department: 'Sales', birthDate: '1990-01-01', street: '123 Main St', city: 'Anytown', state: 'CA', zipCode: '12345'},
-    {firstName: 'John', lastName: 'Doe', department: 'Sales', birthDate: '1990-01-01', street: '123 Main St', city: 'Anytown', state: 'CA', zipCode: '12345'},
-    {firstName: 'Jane', lastName: 'Smith', department: 'Engineering', birthDate: '1985-05-15', street: '456 Oak St', city: 'Othertown', state: 'NY', zipCode: '67890'},
-    {firstName: 'Jane', lastName: 'Smith', department: 'Engineering', birthDate: '1985-05-15', street: '456 Oak St', city: 'Othertown', state: 'NY', zipCode: '67890'},
-    {firstName: 'Jane', lastName: 'Smith', department: 'Engineering', birthDate: '1985-05-15', street: '456 Oak St', city: 'Othertown', state: 'NY', zipCode: '67890'},
-  ];
+  const [isOpen, setIsOpen] = useState<boolean>(false);  
+  const [data, setData] = useState<User[]>(localStorage.getItem('employees') ? JSON.parse(localStorage.getItem('employees') || '') : userData);
 
-  // Assurez-vous que cols correspond bien au type des données fournies
+  useEffect(() => {
+    localStorage.setItem('employees', JSON.stringify(data));
+  }, [data]);
+
   const columns: ColType<User>[] = [
-    {title: 'First Nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', property: 'firstName'},
+    {title: 'First Name', property: 'firstName'},
     {title: 'Last Name', property: 'lastName'},
     {title: 'Department', property: 'department'}, 
     {title: 'Date of Birth', property: 'birthDate'},
@@ -33,9 +35,30 @@ const EmployeesList = () => {
     {title: 'Zip Code', property: 'zipCode'}
   ];
 
+  const addUser = (user: User) => {
+    setData((data) => [...data, user]);
+    localStorage.setItem('employees', JSON.stringify(data));
+  }
+
   return (
     <div className="m-2 md:m-6 lg:m-12">
-      <List data={exampleData} columns={columns} />
+      <div className="flex justify-between items-center mb-4 sm:mb-8">
+        <h2 className="text-3xl text-blue-grey font-bold">Employees list</h2>
+        <button
+          type="button"
+          className="flex items-center border border-blue-grey bg-blue-grey text-white font-semibold p-2 h-fit rounded"
+          onClick={() => setIsOpen(true)}
+        >
+          <FontAwesomeIcon className="mr-2" icon={faUserPlus} />
+          <span className="hidden sm:block">
+            Add an employee
+          </span>
+        </button>
+      </div>
+      <List data={data} columns={columns} />
+      {isOpen && 
+        <ModaleForm onValidate={addUser} onCancel={() => setIsOpen(false)} />
+      }
     </div>
   )
 }

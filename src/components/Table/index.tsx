@@ -30,12 +30,12 @@ const Table = <T,>({data, columns}: TableProps<T>) => {
   } = useTable({data, columns});
 
   return (
-    <div className="w-full md:p-4">
+    <div className="w-full">
       {/* Search + Table */}
       <div className="space-y-2">
         <div className="flex justify-between items-center">
           <input
-            className="p-1 border border-grey rounded-sm"
+            className="p-1 border border-grey rounded-sm w-1/2 md:w-1/3"
             placeholder="Search"
             onChange={(e) => handleChangeFilter(e)}
           />
