@@ -23,6 +23,7 @@ const Table = <T,>({data, columns}: TableProps<T>) => {
     columnsMaxWidth,
     currentData,
     itemsPerPage,
+    sortProperty,
     handleSelectChange,
     handleChangeFilter,
     handlePrevious,
@@ -64,6 +65,8 @@ const Table = <T,>({data, columns}: TableProps<T>) => {
                     key={index} 
                     title={col.title} 
                     onClick={() => sortList(col.property)}
+                    sortProperty={sortProperty}
+                    actualProperty={col.property}
                     columnsMaxWidth={columnsMaxWidth}  
                   />
                 ))}
@@ -107,6 +110,7 @@ const useTable = <T,>({data, columns}: TableProps<T>) => {
   const [itemsPerPage, setItemsPerPage] = useState<number>(localStorage.getItem('itemsPerPage') ? JSON.parse(localStorage.getItem('itemsPerPage') || '') : 5);
   const [sortedData, setSortedData] = useState<T[]>(data);
   const [sortProperty, setSortProperty] = useState<keyof T | null>(null);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [filterString, setFilterString] = useState<string>('');
   const [totalPages, setTotalPages] = useState<number>(getTotalPages(sortedData, itemsPerPage));
   const [startIndex, setStartIndex] = useState<number>(getStartIndex(currentPage, itemsPerPage));
@@ -171,31 +175,28 @@ const useTable = <T,>({data, columns}: TableProps<T>) => {
    * @param property Property of T object type
    */
   const sortList = (property: keyof T) => {
+    const isSameProperty = property === sortProperty;
+    const newSortOrder = isSameProperty && sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+    setSortProperty(property);
+
     const sorted = [...sortedData].sort((a, b) => {
       const aValue = a[property];
       const bValue = b[property];
-      
+
       if (typeof aValue === "string" && typeof bValue === "string") {
-        if (property === sortProperty) {
-          setSortProperty(null);
-          return aValue.localeCompare(bValue);
-        }
-        setSortProperty(property);
-        return bValue.localeCompare(aValue);
+        return newSortOrder === "asc"
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
       } else if (typeof aValue === "number" && typeof bValue === "number") {
-        if (property === sortProperty) {
-          setSortProperty(null);
-          return aValue - bValue;
-        }
-        setSortProperty(property);
-        return aValue - bValue;
+        return newSortOrder === "asc" ? aValue - bValue : bValue - aValue;
       }
 
       return 0;
     });
 
     setSortedData(sorted);
-  }
+  };
 
   /**
    * Update filter string
