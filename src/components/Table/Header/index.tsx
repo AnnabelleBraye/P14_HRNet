@@ -1,17 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-type HeaderProps = {
+type HeaderProps<T> = {
   title: string,
   onClick: () => void,
-  columnsMaxWidth: number
+  sortProperty: keyof T | null,
+  actualProperty: keyof T,
+  columnsMaxWidth: number,
 }
 
-const Header = ({title, onClick, columnsMaxWidth}: HeaderProps) => {
+const Header = <T,>({title, onClick, sortProperty, actualProperty, columnsMaxWidth}: HeaderProps<T>) => {
   
   return (
     <th 
-      className="text-start text-blue-grey font-normal p-4 hover:cursor-pointer hover:bg-gray-600 hover:text-gray-300 hover:border-2 hover:border-gray-600"
+      className={`text-start text-blue-grey font-normal p-4 hover:cursor-pointer ${actualProperty === sortProperty ? 'bg-gray-600 border-2 border-gray-600 text-white' : ' bg-gray-200 border-gray-200'} hover:bg-gray-600 hover:text-gray-300 hover:border-2 hover:border-gray-600`}
       style={{ maxWidth: `${columnsMaxWidth}px`, width: `${columnsMaxWidth}px` }}
     >
       <div
