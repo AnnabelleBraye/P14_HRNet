@@ -25,7 +25,6 @@ const Row = <T,>({columns, val, columnsMaxWidth, totalRows, rowIndex}: RowProps<
         ))}
       </tr>
     </React.Fragment>
-    // </tr>
   )
 }
 

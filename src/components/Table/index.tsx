@@ -22,6 +22,7 @@ const Table = <T,>({data, columns}: TableProps<T>) => {
     totalPages,
     columnsMaxWidth,
     currentData,
+    itemsPerPage,
     handleSelectChange,
     handleChangeFilter,
     handlePrevious,
@@ -44,6 +45,7 @@ const Table = <T,>({data, columns}: TableProps<T>) => {
             <select
               id="showOnPage" 
               className="border border-gray-300 rounded"
+              value={itemsPerPage}
               onChange={handleSelectChange}
             >
               <option>5</option>
@@ -102,7 +104,7 @@ const Table = <T,>({data, columns}: TableProps<T>) => {
 const useTable = <T,>({data, columns}: TableProps<T>) => {
   const nbOfTitles = columns.length;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(localStorage.getItem('itemsPerPage') ? JSON.parse(localStorage.getItem('itemsPerPage') || '') : 5);
   const [sortedData, setSortedData] = useState<T[]>(data);
   const [sortProperty, setSortProperty] = useState<keyof T | null>(null);
   const [filterString, setFilterString] = useState<string>('');
@@ -134,6 +136,7 @@ const useTable = <T,>({data, columns}: TableProps<T>) => {
     const properties = columns.map(col => col.property);
     const newList = getNewList(data, properties, filterString);
     setSortedData(newList);
+    setCurrentPage(1);
   }, [columns, filterString, data]);
 
   /**
@@ -142,6 +145,7 @@ const useTable = <T,>({data, columns}: TableProps<T>) => {
    */
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(parseInt(e.target.value) || 5);
+    localStorage.setItem('itemsPerPage', e.target.value);
   }
 
   /**

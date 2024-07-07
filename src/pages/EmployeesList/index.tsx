@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import List, { ColType } from "../../components/Table"
+import Table, { ColType } from "../../components/Table"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons/faUserPlus"
 import ModaleForm from "../../components/ModaleForm"
@@ -55,7 +55,7 @@ const EmployeesList = () => {
           </span>
         </button>
       </div>
-      <List data={data} columns={columns} />
+      <Table data={data} columns={columns} />
       {isOpen && 
         <ModaleForm onValidate={addUser} onCancel={() => setIsOpen(false)} />
       }
