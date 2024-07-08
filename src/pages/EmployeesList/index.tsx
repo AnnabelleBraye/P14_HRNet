@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons/faUserPlus"
 import ModaleForm from "../../components/ModaleForm"
 import { userData } from "../../data/employees"
+import Notification from "../../components/Notification"
 
 export type User = {
   firstName: string,
@@ -19,6 +20,7 @@ export type User = {
 const EmployeesList = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);  
   const [data, setData] = useState<User[]>(localStorage.getItem('employees') ? JSON.parse(localStorage.getItem('employees') || '') : userData);
+  const [showNotification, setShowNotification] = useState<boolean>(false); 
 
   useEffect(() => {
     localStorage.setItem('employees', JSON.stringify(data));
@@ -38,6 +40,8 @@ const EmployeesList = () => {
   const addUser = (user: User) => {
     setData((data) => [...data, user]);
     localStorage.setItem('employees', JSON.stringify(data));
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 3000);
   }
 
   return (
@@ -59,6 +63,7 @@ const EmployeesList = () => {
       {isOpen && 
         <ModaleForm onValidate={addUser} onCancel={() => setIsOpen(false)} />
       }
+      {showNotification && <Notification message="Employee added successfully!" />} {/* Notification */}
     </div>
   )
 }
