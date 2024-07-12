@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import Table, { ColType } from "../../components/Table"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons/faUserPlus"
 import ModaleForm from "../../components/ModaleForm"
 import { userData } from "../../data/employees"
 import Notification from "../../components/Notification"
+import { Table, ColType, TableProps } from 'react-table-component-package';
 
 export type User = {
   firstName: string,
@@ -44,6 +44,12 @@ const EmployeesList = () => {
     setTimeout(() => setShowNotification(false), 3000);
   }
 
+  const tableData: TableProps = {
+    columns,
+    data,
+  };
+
+
   return (
     <div className="m-2 md:m-6 lg:m-12">
       <div className="flex justify-between items-center mb-4 sm:mb-8">
@@ -59,7 +65,7 @@ const EmployeesList = () => {
           </span>
         </button>
       </div>
-      <Table data={data} columns={columns} />
+      <Table {...tableData} />
       {isOpen && 
         <ModaleForm onValidate={addUser} onCancel={() => setIsOpen(false)} />
       }

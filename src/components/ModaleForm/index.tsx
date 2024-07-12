@@ -4,7 +4,6 @@ import { useState } from "react"
 import Input from "../Form/Input"
 import { User } from "../../pages/EmployeesList"
 import { states } from "../../data/states"
-import 'react-datepicker/dist/react-datepicker.css';
 import Select from "../Form/Select"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import AlertModal from "../AlertModal"

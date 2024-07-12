@@ -2,7 +2,6 @@ import React from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import ReactDOM from 'react-dom/client'
 import Navbar from './components/Navbar'
-import Home from './pages/Home'
 import EmployeesList from './pages/EmployeesList'
 import './styles/index.css'
 
@@ -16,8 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Router>
       <Navbar />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/employees' element={<EmployeesList />} />
+        <Route path='/' element={<EmployeesList />} />
       </Routes>
     </Router>
   </React.StrictMode>,
