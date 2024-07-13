@@ -44,33 +44,35 @@ const EmployeesList = () => {
     setTimeout(() => setShowNotification(false), 3000);
   }
 
-  const tableData: TableProps = {
+  const tableData: TableProps<User> = {
     columns,
     data,
   };
 
 
   return (
-    <div className="m-2 md:m-6 lg:m-12">
-      <div className="flex justify-between items-center mb-4 sm:mb-8">
-        <h2 className="text-3xl text-blue-grey font-bold">Employees list</h2>
-        <button
-          type="button"
-          className="flex items-center border border-blue-grey bg-blue-grey text-white font-semibold p-2 h-fit rounded"
-          onClick={() => setIsOpen(true)}
-        >
-          <FontAwesomeIcon className="mr-2" icon={faUserPlus} />
-          <span className="hidden sm:block">
-            Add an employee
-          </span>
-        </button>
+    <main>
+      <div className="m-2 md:m-6 lg:m-12">
+        <div className="flex justify-between items-center mb-4 sm:mb-8">
+          <h2 className="text-3xl text-blue-grey font-bold">Employees list</h2>
+          <button
+            type="button"
+            className="flex items-center border border-blue-grey bg-blue-grey text-white font-semibold p-2 h-fit rounded"
+            onClick={() => setIsOpen(true)}
+          >
+            <FontAwesomeIcon className="mr-2" icon={faUserPlus} />
+            <span className="hidden sm:block">
+              Add an employee
+            </span>
+          </button>
+        </div>
+        <Table {...tableData} />
+        {isOpen && 
+          <ModaleForm onValidate={addUser} onCancel={() => setIsOpen(false)} />
+        }
+        {showNotification && <Notification message="Employee added successfully!" />} {/* Notification */}
       </div>
-      <Table {...tableData} />
-      {isOpen && 
-        <ModaleForm onValidate={addUser} onCancel={() => setIsOpen(false)} />
-      }
-      {showNotification && <Notification message="Employee added successfully!" />} {/* Notification */}
-    </div>
+    </main>
   )
 }
 
